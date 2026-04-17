@@ -53,19 +53,28 @@ You must create a `.env` file in the root directory before running Docker. This 
 
 ```dotenv
 # .env
-# Global IP addresses for Backend deployment (use localhost or remote IP e.g., 13.203.215.126)
-GOVSIGN_HOST=http://13.203.215.126:8000
-MOCK_CA_HOST=http://13.203.215.126:8001
-
-# The Admin key required to register departments to the GovSign Database
+# GovSign API
+GOVSIGN_HOST=http://[IP-ADRESS]:8000
 GOVSIGN_ADMIN_KEY=dev-admin-key-change-in-prod
 
-# Infrastructure Storage bindings 
+# Mock Issuer CA
+MOCK_CA_HOST=http://[IP-ADRESS]:8001
+
+# Session store (Redis)
 REDIS_URL=redis://localhost:6379
+
+# Cloud document store (local MinIO for dev)
 STORAGE_URL=http://localhost:9000
 STORAGE_KEY=minioadmin
 STORAGE_SECRET=minioadmin
 STORAGE_BUCKET=qavach-docs
+
+# Flutter app (these go in lib/config.dart)
+FLUTTER_GOVSIGN_URL=http://[IP-ADRESS]:8000
+FLUTTER_MOCK_CA_URL=http://[IP-ADRESS]:8001
+
+# Portal shared secret (portals register with GovSign using this)
+PORTAL_REGISTRATION_SECRET=portal-secret-change-in-prod
 ```
 
 Start the baseline infrastructure (Redis, MinIO, GovSign, Sidecar, Mock-Ca):

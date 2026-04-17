@@ -1,6 +1,6 @@
 import type { CbomResponse } from './types'
 
-const BASE = import.meta.env.VITE_GOVSIGN_URL ?? 'http://localhost:8000'
+const BASE = import.meta.env.VITE_GOVSIGN_URL ?? 'http://13.203.215.126:8000'
 const ADMIN_KEY = import.meta.env.VITE_GOVSIGN_ADMIN_KEY ?? 'dev-admin-key-change-in-prod'
 
 const headers = {
