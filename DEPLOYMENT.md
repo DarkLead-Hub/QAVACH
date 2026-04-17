@@ -12,9 +12,9 @@ The core QAVACH cryptographic and issuance services are live on the internet to 
 
 | Service | Port | Endpoint / Health | Status |
 | :--- | :--- | :--- | :--- |
-| **GovSign API** | `8000` | [http://13.126.194.20:8000/health](http://13.126.194.20:8000/health) | ✅ LIVE |
-| **Mock Issuer CA** | `8001` | [http://13.126.194.20:8001/health](http://13.126.194.20:8001/health) | ✅ LIVE |
-| **PQC Sidecar** | `8002` | [http://13.126.194.20:8002/health](http://13.126.194.20:8002/health) | ✅ LIVE |
+| **GovSign API** | `8000` | [http://13.203.215.126:8000/health](http://13.203.215.126:8000/health) | ✅ LIVE |
+| **Mock Issuer CA** | `8001` | [http://13.203.215.126:8001/health](http://13.203.215.126:8001/health) | ✅ LIVE |
+| **PQC Sidecar** | `8002` | [http://13.203.215.126:8002/health](http://13.203.215.126:8002/health) | ✅ LIVE |
 
 ---
 
@@ -46,34 +46,47 @@ Clone the repository and create the environment file:
 ```bash
 git clone <repository-url>
 cd QAVACH
-cp .env.example .env  # Update values as needed
 ```
 
-Start the baseline infrastructure (Redis, MinIO):
+### The Root `.env` Schema
+You must create a `.env` file in the root directory before running Docker. This configures the global host IPs:
+
+```dotenv
+# .env
+# Global IP addresses for Backend deployment (use localhost or remote IP e.g., 13.203.215.126)
+GOVSIGN_HOST=http://13.203.215.126:8000
+MOCK_CA_HOST=http://13.203.215.126:8001
+
+# The Admin key required to register departments to the GovSign Database
+GOVSIGN_ADMIN_KEY=dev-admin-key-change-in-prod
+
+# Infrastructure Storage bindings 
+REDIS_URL=redis://localhost:6379
+STORAGE_URL=http://localhost:9000
+STORAGE_KEY=minioadmin
+STORAGE_SECRET=minioadmin
+STORAGE_BUCKET=qavach-docs
+```
+
+Start the baseline infrastructure (Redis, MinIO, GovSign, Sidecar, Mock-Ca):
 ```bash
-docker compose up -d
+docker compose up --build -d
 ```
 
 ---
 
-## 🔐 Step 2: Backend Services (GovSign & Mock CA)
+## 🔐 Step 2: Automated Key Generation & Environment Injection
 
-### GovSign API
+Because GovSign generates secure, randomized API keys for every department (e.g., `govsign-itd-6f31918999...`), the old deterministic script (`seed_departments.py`) is insufficient. 
+
+To safely register the departments to your remote database, link GovSign to Mock CA, and automatically inject the final securely-generated API keys into all of your Local Portals (`portals/*/.env.local`), run the automated deployment script provided in the root directory:
+
 ```bash
-cd services/govsign
-pip install -r requirements.txt
-python seeds/seed_departments.py  # Critical: Populates the PQC registry
-uvicorn main:app --reload --port 8000
+# Ensure you are at the QAVACH root folder
+python automate_deployment.py
 ```
 
-### Mock Issuer CA
-```bash
-cd ../mock-ca
-pip install -r requirements.txt
-uvicorn main:app --reload --port 8001
-# Issue credentials for demo citizens
-curl -X POST http://localhost:8001/credentials/issue -d '{"citizen_id": "CITIZEN_001"}'
-```
+*This script will ping the APIs listed in your `.env`, register the 5 core simulated government departments, trigger MockCA to locally issue sandbox credentials for all 3 demo citizens, and gracefully update your portal configuration files.*
 
 ---
 
