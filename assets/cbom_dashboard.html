@@ -1,0 +1,99 @@
+<style>
+.cb-wrap{padding:16px 0;font-family:var(--font-sans)}
+.cb-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.cb-title{font-size:16px;font-weight:500;color:var(--color-text-primary)}
+.cb-sub{font-size:12px;color:var(--color-text-secondary)}
+.cb-stats{display:flex;gap:12px;margin-bottom:16px}
+.cb-stat{flex:1;padding:10px 14px;border-radius:var(--border-radius-md);border:1px solid var(--color-border-tertiary);background:var(--color-background-secondary)}
+.cb-stat-n{font-size:22px;font-weight:500;color:var(--color-text-primary)}
+.cb-stat-l{font-size:11px;color:var(--color-text-secondary);margin-top:2px}
+.cb-stat.green .cb-stat-n{color:var(--color-text-success)}
+.cb-stat.amber .cb-stat-n{color:var(--color-text-warning)}
+.cb-stat.red .cb-stat-n{color:var(--color-text-danger)}
+.cb-filter{display:flex;gap:6px;margin-bottom:12px}
+.cb-pill{padding:4px 10px;border-radius:20px;font-size:12px;cursor:pointer;border:1px solid var(--color-border-secondary);background:transparent;color:var(--color-text-secondary)}
+.cb-pill.active{background:var(--color-background-info);color:var(--color-text-info);border-color:var(--color-border-tertiary)}
+.cb-table{width:100%;border-collapse:collapse}
+.cb-table th{font-size:11px;font-weight:500;color:var(--color-text-tertiary);text-align:left;padding:6px 10px;border-bottom:1px solid var(--color-border-tertiary)}
+.cb-table td{font-size:13px;color:var(--color-text-primary);padding:8px 10px;border-bottom:1px solid var(--color-border-tertiary);vertical-align:middle}
+.cb-table tr:hover td{background:var(--color-background-secondary)}
+.badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:500}
+.badge.pqc{background:var(--color-background-success);color:var(--color-text-success)}
+.badge.hybrid{background:var(--color-background-warning);color:var(--color-text-warning)}
+.badge.classical{background:var(--color-background-danger);color:var(--color-text-danger)}
+.badge.pending{background:var(--color-background-secondary);color:var(--color-text-secondary)}
+.algo-pill{display:inline-block;padding:1px 6px;border-radius:4px;font-size:11px;font-family:var(--font-mono);background:var(--color-background-tertiary);color:var(--color-text-secondary);margin-right:3px}
+.risk-bar{width:60px;height:6px;border-radius:3px;background:var(--color-border-tertiary);display:inline-block;overflow:hidden;vertical-align:middle}
+.risk-fill{height:100%;border-radius:3px}
+.low .risk-fill{background:var(--color-background-success);width:25%}
+.med .risk-fill{background:var(--color-background-warning);width:58%;background:#EF9F27}
+.high .risk-fill{background:var(--color-text-danger);width:88%}
+</style>
+<div class="cb-wrap">
+  <div class="cb-head">
+    <div>
+      <div class="cb-title">CBOM — Cryptography bill of materials</div>
+      <div class="cb-sub">GovSign API · department PQC compliance registry · last updated just now</div>
+    </div>
+  </div>
+  <div class="cb-stats">
+    <div class="cb-stat green"><div class="cb-stat-n">3</div><div class="cb-stat-l">PQC compliant</div></div>
+    <div class="cb-stat amber"><div class="cb-stat-n">2</div><div class="cb-stat-l">Hybrid / in migration</div></div>
+    <div class="cb-stat red"><div class="cb-stat-n">5</div><div class="cb-stat-l">Classical only — at risk</div></div>
+    <div class="cb-stat"><div class="cb-stat-n">2</div><div class="cb-stat-l">Pending onboarding</div></div>
+  </div>
+  <div class="cb-filter">
+    <button class="cb-pill active" onclick="filter('all',this)">All</button>
+    <button class="cb-pill" onclick="filter('pqc',this)">PQC</button>
+    <button class="cb-pill" onclick="filter('hybrid',this)">Hybrid</button>
+    <button class="cb-pill" onclick="filter('classical',this)">Classical</button>
+    <button class="cb-pill" onclick="filter('pending',this)">Pending</button>
+  </div>
+  <table class="cb-table">
+    <thead>
+      <tr>
+        <th>Department</th>
+        <th>Algorithm in use</th>
+        <th>Usage</th>
+        <th>Status</th>
+        <th>Quantum risk</th>
+      </tr>
+    </thead>
+    <tbody id="cb-body"></tbody>
+  </table>
+</div>
+<script>
+const depts=[
+  {name:"Income Tax Dept (ITD)",algos:["ML-DSA-65","ML-KEM-768"],usage:"Credential signing, doc encryption",status:"pqc",risk:"low"},
+  {name:"UIDAI (Aadhaar)",algos:["ML-DSA-44","SLH-DSA-128f"],usage:"eKYC attestation, biometric bind",status:"pqc",risk:"low"},
+  {name:"Central Board of Education",algos:["ML-DSA-44"],usage:"Certificate signing",status:"pqc",risk:"low"},
+  {name:"Ministry of Corporate Affairs",algos:["ECDSA P-256","ML-DSA-44"],usage:"Director KYC, ROC filings",status:"hybrid",risk:"med"},
+  {name:"EPFO",algos:["RSA-2048","ML-DSA-44 (pilot)"],usage:"UAN, contribution records",status:"hybrid",risk:"med"},
+  {name:"Revenue dept (state)",algos:["RSA-2048"],usage:"Land record signatures",status:"classical",risk:"high"},
+  {name:"Municipal Corp. (trade lic.)",algos:["ECDSA P-256"],usage:"License issuance",status:"classical",risk:"high"},
+  {name:"State health dept",algos:["RSA-2048"],usage:"Health record attestation",status:"classical",risk:"high"},
+  {name:"CBSE",algos:["RSA-4096"],usage:"Marksheet signatures",status:"classical",risk:"high"},
+  {name:"SEBI",algos:["ECDSA P-384"],usage:"Investor KYC docs",status:"classical",risk:"high"},
+  {name:"Passport Seva (MEA)",algos:["—"],usage:"Not yet integrated",status:"pending",risk:null},
+  {name:"NHA (health ID)",algos:["—"],usage:"Not yet integrated",status:"pending",risk:null},
+];
+let cur='all';
+function filter(f,el){
+  cur=f;
+  document.querySelectorAll('.cb-pill').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');
+  render();
+}
+function render(){
+  const rows=depts.filter(d=>cur==='all'||d.status===cur);
+  document.getElementById('cb-body').innerHTML=rows.map(d=>`
+    <tr>
+      <td style="font-weight:500">${d.name}</td>
+      <td>${d.algos.map(a=>`<span class="algo-pill">${a}</span>`).join('')}</td>
+      <td style="color:var(--color-text-secondary);font-size:12px">${d.usage}</td>
+      <td><span class="badge ${d.status}">${{pqc:'PQC ready',hybrid:'Hybrid',classical:'Classical',pending:'Pending'}[d.status]}</span></td>
+      <td>${d.risk?`<span class="risk-bar ${d.risk}"><span class="risk-fill"></span></span> <span style="font-size:11px;color:var(--color-text-secondary);margin-left:4px">${{low:'Low',med:'Medium',high:'High'}[d.risk]}</span>`:'—'}</td>
+    </tr>`).join('');
+}
+render();
+</script>
