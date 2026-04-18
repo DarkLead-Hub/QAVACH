@@ -6,7 +6,7 @@ export default function RefreshIndicator({ lastUpdated }: { lastUpdated?: number
 
   useEffect(() => {
     if (!lastUpdated) return
-    
+
     const interval = setInterval(() => {
       const seconds = Math.floor((Date.now() - lastUpdated) / 1000)
       if (seconds < 5) setTimeAgo('Just now')
@@ -18,10 +18,10 @@ export default function RefreshIndicator({ lastUpdated }: { lastUpdated?: number
   }, [lastUpdated])
 
   return (
-    <div className="flex items-center gap-2 bg-surface-3/50 px-3 py-1.5 rounded-full border border-gray-700/50 shadow-inner">
+    <div className="inline-flex items-center gap-2 bg-white px-3.5 py-1.5 rounded-full border border-gray-200 shadow-sm">
       <RefreshCw className={`w-3 h-3 text-accent ${Date.now() - (lastUpdated ?? 0) < 2000 ? 'animate-spin' : ''}`} />
-      <span className="text-[10px] font-mono text-gray-500 uppercase tracking-tighter">
-        Live Sync: <span className="text-gray-300">{timeAgo}</span>
+      <span className="text-[10px] font-mono text-gray-400 uppercase tracking-tight">
+        Synced: <span className="text-gray-700 font-semibold">{timeAgo}</span>
       </span>
     </div>
   )

@@ -1,14 +1,21 @@
 export default function StatusDot({ status }: { status: 'online' | 'offline' | 'warning' }) {
   const colors = {
-    online: 'bg-pqc shadow-pqc/50',
-    offline: 'bg-red-500 shadow-red-500/50',
-    warning: 'bg-hybrid shadow-hybrid/50',
+    online: 'bg-pqc',
+    offline: 'bg-classical',
+    warning: 'bg-hybrid',
+  }
+
+  const ringColors = {
+    online: 'ring-pqc/20',
+    offline: 'ring-classical/20',
+    warning: 'ring-hybrid/20',
   }
 
   return (
-    <div className={`w-2 h-2 rounded-full shadow-lg ${colors[status]} relative`}>
+    <div className="relative flex items-center justify-center">
+      <div className={`w-2.5 h-2.5 rounded-full ${colors[status]} ring-4 ${ringColors[status]}`} />
       {status === 'online' && (
-        <div className="absolute inset-0 bg-pqc rounded-full animate-ping opacity-75"></div>
+        <div className={`absolute inset-0 w-2.5 h-2.5 rounded-full ${colors[status]} animate-ping opacity-50`} />
       )}
     </div>
   )

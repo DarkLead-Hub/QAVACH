@@ -10,16 +10,16 @@ export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <Router>
-        <div className="min-h-screen bg-surface">
+        <div className="min-h-screen bg-surface bg-grid">
           <TopBar />
-          <main className="max-w-7xl mx-auto px-4 py-6">
+          <main className="max-w-[1280px] mx-auto px-8 py-6">
             <Routes>
               <Route path="/" element={<Overview />} />
               <Route path="/dept/:id" element={<DeptDetail />} />
             </Routes>
           </main>
-          <footer className="text-center py-6 text-[10px] text-gray-700">
-            QAVACH · Post-Quantum Cryptography for Indian e-Governance · NIST FIPS 203/204/205
+          <footer className="text-center py-4 text-[10px] text-gray-400 border-t border-gray-100">
+            QAVACH · Post-Quantum Cryptography for Indian e-Governance · NIST FIPS 203/204/205 · © 2026
           </footer>
         </div>
       </Router>
