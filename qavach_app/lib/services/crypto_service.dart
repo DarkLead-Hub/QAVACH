@@ -42,4 +42,27 @@ class CryptoService {
     });
     return response.data['shared_secret_b64'] as String;
   }
+
+  /// Verify an SLH-DSA (SPHINCS+) signature using the PQC sidecar.
+  /// This performs REAL post-quantum signature verification via liboqs.
+  ///
+  /// The sidecar's /sidecar/verify endpoint accepts any algorithm supported by liboqs,
+  /// including SLH-DSA-SHAKE-128s (FIPS 205). It SHA3-256 hashes the payload before
+  /// verification to match the signing behavior in signer.py.
+  Future<Map<String, dynamic>> verifySLHDSA({
+    required String publicKeyB64,
+    required String signatureB64,
+    required String payloadB64,
+  }) async {
+    final response = await _dio.post('/sidecar/verify', data: {
+      'algorithm': 'SLH-DSA-SHAKE-128s',
+      'public_key_b64': publicKeyB64,
+      'payload': payloadB64,
+      'signature_b64': signatureB64,
+    });
+    return {
+      'valid': response.data['valid'] as bool,
+      'algorithm': response.data['algorithm'] as String? ?? 'SLH-DSA-SHAKE-128s',
+    };
+  }
 }

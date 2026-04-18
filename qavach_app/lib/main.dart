@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'config.dart';
 import 'models/credential.dart';
 import 'screens/splash/splash_screen.dart';
 import 'screens/onboarding/onboarding_landing_screen.dart';
@@ -12,14 +14,28 @@ import 'screens/scan/scan_screen.dart';
 import 'screens/scan/policy_check_screen.dart';
 import 'screens/scan/proof_result_screen.dart';
 import 'screens/credential_detail/credential_detail_screen.dart';
+// QAVACH Supabase auth screens
+import 'screens/supabase_auth/supabase_login_screen.dart';
+import 'screens/supabase_auth/supabase_signup_screen.dart';
+import 'screens/supabase_auth/supabase_home_screen.dart';
+import 'screens/supabase_auth/pdf_verify_upload_screen.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize Supabase — same project as the Issue Portal
+  await Supabase.initialize(
+    url: kSupabaseUrl,
+    anonKey: kSupabaseAnonKey,
+  );
+
   runApp(const ProviderScope(child: QavachApp()));
 }
 
 final _router = GoRouter(
   initialLocation: '/',
   routes: [
+    // ── Existing routes (Mock-CA / PQC demo flow) ──
     GoRoute(
       path: '/',
       builder: (context, state) => const SplashScreen(),
@@ -88,6 +104,24 @@ final _router = GoRouter(
         ),
       ],
     ),
+
+    // ── QAVACH Supabase auth routes ──
+    GoRoute(
+      path: '/supabase-login',
+      builder: (context, state) => const SupabaseLoginScreen(),
+    ),
+    GoRoute(
+      path: '/supabase-signup',
+      builder: (context, state) => const SupabaseSignupScreen(),
+    ),
+    GoRoute(
+      path: '/supabase-home',
+      builder: (context, state) => const SupabaseHomeScreen(),
+    ),
+    GoRoute(
+      path: '/pdf-verify-upload',
+      builder: (context, state) => const PdfVerifyUploadScreen(),
+    ),
   ],
 );
 
@@ -103,7 +137,7 @@ class QavachApp extends StatelessWidget {
           seedColor: const Color(0xFF4338CA),
           brightness: Brightness.light,
         ),
-        scaffoldBackgroundColor: const Color(0xFFF8FAFC),
+        scaffoldBackgroundColor: Colors.white,
         useMaterial3: true,
       ),
       routerConfig: _router,

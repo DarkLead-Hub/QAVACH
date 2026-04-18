@@ -36,6 +36,12 @@ class HomeScreen extends ConsumerWidget {
           error: (_, __) => const Text('Error'),
         ),
         actions: [
+          // Navigate to DigiLocker mode (Supabase-backed credentials)
+          IconButton(
+            icon: const Icon(Icons.account_balance, size: 20, color: Color(0xFF4338CA)),
+            tooltip: 'DigiLocker',
+            onPressed: () => context.push('/supabase-login'),
+          ),
           IconButton(
             icon: const Icon(Icons.refresh, size: 20, color: Color(0xFF64748B)),
             onPressed: () => ref.invalidate(credentialsProvider),

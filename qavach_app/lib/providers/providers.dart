@@ -5,6 +5,10 @@ import '../services/storage_service.dart';
 import '../services/credential_service.dart';
 import '../services/opa_service.dart';
 import '../services/govsign_service.dart';
+import '../services/supabase_auth_service.dart';
+import '../services/supabase_credential_service.dart';
+
+// ── Existing providers (Mock-CA / PQC Sidecar flow) ──
 
 final cryptoServiceProvider = Provider((ref) => CryptoService());
 final storageServiceProvider = Provider((ref) => StorageService());
@@ -36,4 +40,19 @@ final currentCitizenProvider = FutureProvider((ref) {
 
 final credentialsProvider = FutureProvider((ref) {
   return ref.watch(credentialServiceProvider).getStoredCredentials();
+});
+
+// ── Supabase providers (DigiLocker / Issue Portal flow) ──
+
+final supabaseAuthServiceProvider = Provider((ref) => SupabaseAuthService());
+final supabaseCredentialServiceProvider = Provider((ref) => SupabaseCredentialService());
+
+/// Issued credentials from the Supabase database (Issue Portal)
+final supabaseIssuedCredentialsProvider = FutureProvider<List<IssuedCredential>>((ref) {
+  return ref.watch(supabaseCredentialServiceProvider).getIssuedCredentials();
+});
+
+/// Uploaded documents from the Supabase database
+final supabaseUploadedDocumentsProvider = FutureProvider<List<UploadedDocument>>((ref) {
+  return ref.watch(supabaseCredentialServiceProvider).getUploadedDocuments();
 });
