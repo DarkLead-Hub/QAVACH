@@ -4,7 +4,7 @@
 
 The Mock Issuer CA simulates the government document issuance infrastructure that does not yet exist in India. In a production system, the Income Tax Department, UIDAI, and Revenue departments would run their own signing infrastructure. For this demo, this service stands in for all of them.
 
-It issues signed mock credentials — income certificates, Aadhaar attestations, land ownership records — using the same SLH-DSA/ML-DSA keys that are registered with GovSign. The QAVACH app downloads these documents at onboarding time, just like DigiLocker.
+It issues signed mock credentials — income certificates, Aadhaar attestations, land ownership records — using the same SLH-DSA/ML-DSA keys that are registered with GovSign. The QAVACH app downloads these documents at onboarding time, just like Citizen portal.
 
 **Build this immediately after GovSign. It depends only on GovSign being seeded.**
 

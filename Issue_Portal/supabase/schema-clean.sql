@@ -1,4 +1,4 @@
--- DigiLocker Credential Portal Database Schema
+-- Citizen Portal Database Schema
 -- IDEMPOTENT VERSION - Safe to run multiple times
 
 -- ============================================================================

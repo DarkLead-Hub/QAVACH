@@ -8,7 +8,7 @@ The system has three layers:
 
 1. **GovSign API** — a microservice that government departments call to sign documents with PQC algorithms. It maintains a CBOM (Cryptography Bill of Materials) registry tracking which departments are PQC-compliant and which are still on classical crypto.
 
-2. **QAVACH Flutter App** — the citizen-facing mobile wallet. Downloads documents from DigiLocker (mocked), stores them encrypted with ML-KEM-768 + AES-256-GCM, and when a verifier portal requests a claim, runs an OPA (Open Policy Agent) policy on-device to decide whether to generate a signed proof.
+2. **QAVACH Flutter App** — the citizen-facing mobile wallet. Downloads documents from Citizen portal (mocked), stores them encrypted with ML-KEM-768 + AES-256-GCM, and when a verifier portal requests a claim, runs an OPA (Open Policy Agent) policy on-device to decide whether to generate a signed proof.
 
 3. **Verifier Portals** — five web portals that consume QAVACH proofs. Three are PQC-enabled (scholarship, home loan, land mutation). Two are deliberately classical/legacy (ration card, trade licence) to demonstrate the migration gap and show CBOM warnings.
 

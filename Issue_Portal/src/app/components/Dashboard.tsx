@@ -22,56 +22,64 @@ const CREDENTIAL_CATALOG = [
     title: 'PAN Card',
     description: 'Permanent Account Number - Income Tax Department',
     available: true,
-    icon: '🏦'
+    iconClass: 'fa-solid fa-building-columns',
+    iconBg: 'bg-indigo-50 text-indigo-600'
   },
   {
     type: 'INCOME_CERTIFICATE',
     title: 'Income Certificate',
     description: 'Annual Income Verification Certificate',
     available: true,
-    icon: '📄'
+    iconClass: 'fa-solid fa-file-invoice-dollar',
+    iconBg: 'bg-emerald-50 text-emerald-600'
   },
   {
     type: 'AADHAAR_CARD',
     title: 'Aadhaar Card',
     description: 'Unique Identification Authority of India',
     available: true,
-    icon: '🆔'
+    iconClass: 'fa-solid fa-id-card',
+    iconBg: 'bg-sky-50 text-sky-600'
   },
   {
     type: 'DRIVING_LICENSE',
     title: 'Driving License',
     description: 'Ministry of Road Transport & Highways',
     available: false,
-    icon: '🚗'
+    iconClass: 'fa-solid fa-car',
+    iconBg: 'bg-amber-50 text-amber-600'
   },
   {
     type: 'PASSPORT',
     title: 'Passport',
     description: 'Ministry of External Affairs',
     available: false,
-    icon: '✈️'
+    iconClass: 'fa-solid fa-passport',
+    iconBg: 'bg-violet-50 text-violet-600'
   },
   {
     type: 'VOTER_ID',
     title: 'Voter ID Card',
     description: 'Election Commission of India',
     available: false,
-    icon: '🗳️'
+    iconClass: 'fa-solid fa-check-to-slot',
+    iconBg: 'bg-rose-50 text-rose-600'
   },
   {
     type: 'BIRTH_CERTIFICATE',
     title: 'Birth Certificate',
     description: 'Municipal Corporation',
     available: false,
-    icon: '👶'
+    iconClass: 'fa-solid fa-baby',
+    iconBg: 'bg-pink-50 text-pink-600'
   },
   {
     type: 'DOMICILE_CERTIFICATE',
     title: 'Domicile Certificate',
     description: 'State Government Certificate',
     available: false,
-    icon: '🏛️'
+    iconClass: 'fa-solid fa-landmark',
+    iconBg: 'bg-teal-50 text-teal-600'
   }
 ];
 
@@ -115,87 +123,114 @@ export function Dashboard({ accessToken, userId, onLogout }: DashboardProps) {
   };
 
   return (
-    <div className="min-h-screen bg-white">
-      {/* Header */}
-      <header className="bg-gray-900 text-white border-b border-gray-800">
-        <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-          <div>
-            <h1 className="text-xl font-bold">DigiLocker Portal</h1>
-            <p className="text-xs text-gray-400">Government of India • Digital Credentials</p>
-          </div>
-          <button
-            onClick={handleLogout}
-            className="px-4 py-1 border border-white text-sm hover:bg-white hover:text-gray-900"
-          >
-            Logout
-          </button>
-        </div>
-      </header>
-
-      {/* Navigation */}
-      <div className="border-b border-gray-300 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="flex gap-6 text-sm">
-            <button
-              onClick={() => setShowIssued(false)}
-              className={`py-3 border-b-2 ${!showIssued ? 'border-gray-900 font-medium' : 'border-transparent text-gray-600'}`}
-            >
-              Issue Credentials
-            </button>
-            <button
-              onClick={() => setShowIssued(true)}
-              className={`py-3 border-b-2 ${showIssued ? 'border-gray-900 font-medium' : 'border-transparent text-gray-600'}`}
-            >
-              My Credentials
-            </button>
-          </div>
-        </div>
+    <div className="min-h-screen relative">
+      {/* Animated grid background */}
+      <div className="grid-bg">
+        <div className="orb orb-1" />
+        <div className="orb orb-2" />
+        <div className="orb orb-3" />
       </div>
 
-      {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 py-8">
-        {!showIssued ? (
-          <>
-            <div className="mb-6">
-              <h2 className="text-lg font-bold text-gray-900">Available Credentials</h2>
-              <p className="text-sm text-gray-600 mt-1">Select a credential type to issue</p>
+      <div className="relative z-10">
+        {/* Header */}
+        <header className="glass-header sticky top-0 z-40">
+          <div className="max-w-7xl mx-auto px-6 py-3.5 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-[#4f46e5] to-[#4338ca] flex items-center justify-center shadow-sm shadow-[rgba(79,70,229,0.2)]">
+                <i className="fa-solid fa-shield-halved text-white text-sm"></i>
+              </div>
+              <div>
+                <h1 className="text-base font-bold text-[#1a1a2e] tracking-tight">Citizen Portal</h1>
+                <p className="text-[0.7rem] text-[#6b7280]">Government of India · Digital Credentials</p>
+              </div>
             </div>
+            <button
+              onClick={handleLogout}
+              className="btn-ghost px-4 py-1.5 text-sm"
+            >
+              <i className="fa-solid fa-right-from-bracket mr-1.5 text-xs"></i>
+              Logout
+            </button>
+          </div>
+        </header>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-              {CREDENTIAL_CATALOG.map((cred) => (
-                <button
-                  key={cred.type}
-                  onClick={() => cred.available && setSelectedCredential(cred.type)}
-                  disabled={!cred.available}
-                  className={`
-                    border p-4 text-left transition-all
-                    ${cred.available
-                      ? 'border-gray-300 hover:border-gray-900 hover:shadow-sm cursor-pointer bg-white'
-                      : 'border-gray-200 bg-gray-50 cursor-not-allowed opacity-60'
-                    }
-                  `}
-                >
-                  <div className="text-2xl mb-2">{cred.icon}</div>
-                  <h3 className="font-medium text-gray-900 text-sm mb-1">{cred.title}</h3>
-                  <p className="text-xs text-gray-600 mb-2">{cred.description}</p>
-                  {!cred.available && (
-                    <span className="inline-block text-xs px-2 py-1 bg-gray-200 text-gray-700">
-                      Coming Soon
-                    </span>
-                  )}
-                  {cred.available && (
-                    <span className="inline-block text-xs px-2 py-1 bg-green-100 text-green-800 border border-green-300">
-                      Available
-                    </span>
-                  )}
-                </button>
-              ))}
+        {/* Navigation */}
+        <div className="border-b border-[rgba(0,0,0,0.06)] bg-[rgba(255,255,255,0.35)] backdrop-blur-md">
+          <div className="max-w-7xl mx-auto px-6">
+            <div className="flex gap-1">
+              <button
+                onClick={() => setShowIssued(false)}
+                className={`py-3 px-4 text-sm font-medium transition-all border-b-2 ${
+                  !showIssued
+                    ? 'border-[#4f46e5] text-[#4f46e5]'
+                    : 'border-transparent text-[#6b7280] hover:text-[#374151]'
+                }`}
+              >
+                <i className="fa-solid fa-plus-circle mr-1.5 text-xs"></i>
+                Issue Credentials
+              </button>
+              <button
+                onClick={() => setShowIssued(true)}
+                className={`py-3 px-4 text-sm font-medium transition-all border-b-2 ${
+                  showIssued
+                    ? 'border-[#4f46e5] text-[#4f46e5]'
+                    : 'border-transparent text-[#6b7280] hover:text-[#374151]'
+                }`}
+              >
+                <i className="fa-solid fa-folder-open mr-1.5 text-xs"></i>
+                My Credentials
+              </button>
             </div>
-          </>
-        ) : (
-          <IssuedCredentialsList credentials={issuedCredentials} />
-        )}
-      </main>
+          </div>
+        </div>
+
+        {/* Main Content */}
+        <main className="max-w-7xl mx-auto px-6 py-8">
+          {!showIssued ? (
+            <>
+              <div className="mb-6">
+                <h2 className="text-lg font-bold text-[#1a1a2e] tracking-tight">Available Credentials</h2>
+                <p className="text-sm text-[#6b7280] mt-0.5">Select a credential type to issue a digitally signed document</p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                {CREDENTIAL_CATALOG.map((cred) => (
+                  <button
+                    key={cred.type}
+                    onClick={() => cred.available && setSelectedCredential(cred.type)}
+                    disabled={!cred.available}
+                    className={`credential-card glass-subtle p-4 text-left group ${
+                      cred.available
+                        ? 'cursor-pointer'
+                        : 'cursor-not-allowed opacity-50'
+                    }`}
+                  >
+                    <div className={`cred-icon ${cred.iconBg} mb-3`}>
+                      <i className={cred.iconClass}></i>
+                    </div>
+                    <h3 className="font-semibold text-[#1a1a2e] text-sm mb-0.5">{cred.title}</h3>
+                    <p className="text-xs text-[#6b7280] mb-3 leading-relaxed">{cred.description}</p>
+                    {!cred.available && (
+                      <span className="badge-coming">
+                        <i className="fa-solid fa-clock text-[0.6rem]"></i>
+                        Coming Soon
+                      </span>
+                    )}
+                    {cred.available && (
+                      <span className="badge-available">
+                        <i className="fa-solid fa-circle-check text-[0.6rem]"></i>
+                        Available
+                      </span>
+                    )}
+                  </button>
+                ))}
+              </div>
+            </>
+          ) : (
+            <IssuedCredentialsList credentials={issuedCredentials} />
+          )}
+        </main>
+      </div>
 
       {/* Credential Form Modal */}
       {selectedCredential && (
@@ -216,9 +251,10 @@ export function Dashboard({ accessToken, userId, onLogout }: DashboardProps) {
 function IssuedCredentialsList({ credentials }: { credentials: Credential[] }) {
   if (credentials.length === 0) {
     return (
-      <div className="text-center py-12 border border-gray-300">
-        <p className="text-gray-600">No credentials issued yet</p>
-        <p className="text-sm text-gray-500 mt-2">Go to "Issue Credentials" to get started</p>
+      <div className="glass text-center py-14 px-6">
+        <i className="fa-solid fa-folder-open text-3xl text-[#d1d5db] mb-3"></i>
+        <p className="text-[#374151] font-medium">No credentials issued yet</p>
+        <p className="text-sm text-[#6b7280] mt-1">Go to "Issue Credentials" to get started</p>
       </div>
     );
   }
@@ -226,41 +262,48 @@ function IssuedCredentialsList({ credentials }: { credentials: Credential[] }) {
   return (
     <div>
       <div className="mb-6">
-        <h2 className="text-lg font-bold text-gray-900">Issued Credentials</h2>
-        <p className="text-sm text-gray-600 mt-1">Your digitally signed documents</p>
+        <h2 className="text-lg font-bold text-[#1a1a2e] tracking-tight">Issued Credentials</h2>
+        <p className="text-sm text-[#6b7280] mt-0.5">Your digitally signed documents</p>
       </div>
 
-      <div className="border border-gray-300">
+      <div className="glass overflow-hidden">
         <table className="w-full text-sm">
-          <thead className="bg-gray-50 border-b border-gray-300">
-            <tr>
-              <th className="text-left px-4 py-3 font-medium">Type</th>
-              <th className="text-left px-4 py-3 font-medium">Issue Date</th>
-              <th className="text-left px-4 py-3 font-medium">Status</th>
-              <th className="text-left px-4 py-3 font-medium">Actions</th>
+          <thead>
+            <tr className="border-b border-[rgba(0,0,0,0.06)]">
+              <th className="text-left px-5 py-3 font-medium text-[#6b7280] text-xs uppercase tracking-wider">Type</th>
+              <th className="text-left px-5 py-3 font-medium text-[#6b7280] text-xs uppercase tracking-wider">Issue Date</th>
+              <th className="text-left px-5 py-3 font-medium text-[#6b7280] text-xs uppercase tracking-wider">Status</th>
+              <th className="text-left px-5 py-3 font-medium text-[#6b7280] text-xs uppercase tracking-wider">Actions</th>
             </tr>
           </thead>
           <tbody>
             {credentials.map((cred, idx) => (
-              <tr key={cred.id} className={idx % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
-                <td className="px-4 py-3">
+              <tr
+                key={cred.id}
+                className={`border-b border-[rgba(0,0,0,0.04)] transition-colors hover:bg-[rgba(79,70,229,0.02)] ${
+                  idx % 2 === 0 ? '' : 'bg-[rgba(0,0,0,0.01)]'
+                }`}
+              >
+                <td className="px-5 py-3 text-[#1a1a2e] font-medium">
                   {cred.credential_type.replace(/_/g, ' ')}
                 </td>
-                <td className="px-4 py-3">
+                <td className="px-5 py-3 text-[#4b5563]">
                   {new Date(cred.issue_date).toLocaleDateString('en-IN')}
                 </td>
-                <td className="px-4 py-3">
-                  <span className="inline-block px-2 py-1 bg-green-100 text-green-800 border border-green-300 text-xs">
+                <td className="px-5 py-3">
+                  <span className="badge-status">
+                    <i className="fa-solid fa-circle-check text-[0.6rem]"></i>
                     {cred.status.toUpperCase()}
                   </span>
                 </td>
-                <td className="px-4 py-3">
+                <td className="px-5 py-3">
                   <a
                     href={cred.public_url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-gray-900 underline hover:text-gray-700 text-xs"
+                    className="text-[#4f46e5] hover:text-[#4338ca] text-xs font-medium transition-colors flex items-center gap-1.5"
                   >
+                    <i className="fa-solid fa-download text-[0.65rem]"></i>
                     Download PDF
                   </a>
                 </td>
@@ -368,46 +411,63 @@ function CredentialFormModal({
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-      <div className="bg-white border border-gray-300 max-w-lg w-full max-h-[90vh] overflow-y-auto">
-        <div className="border-b border-gray-300 px-6 py-4 flex items-center justify-between">
-          <h3 className="text-lg font-bold">Issue {credentialType.replace(/_/g, ' ')}</h3>
-          <button onClick={onClose} className="text-gray-600 hover:text-gray-900 text-xl">×</button>
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+      {/* Backdrop with blur */}
+      <div
+        className="absolute inset-0 bg-[rgba(0,0,0,0.2)] backdrop-blur-sm"
+        onClick={onClose}
+      />
+
+      <div className="glass max-w-lg w-full max-h-[90vh] overflow-y-auto relative z-10">
+        <div className="border-b border-[rgba(0,0,0,0.06)] px-6 py-4 flex items-center justify-between">
+          <h3 className="text-base font-bold text-[#1a1a2e] tracking-tight">
+            <i className="fa-solid fa-file-signature mr-2 text-[#4f46e5] text-sm"></i>
+            Issue {credentialType.replace(/_/g, ' ')}
+          </h3>
+          <button
+            onClick={onClose}
+            className="w-7 h-7 rounded-md bg-[rgba(0,0,0,0.04)] hover:bg-[rgba(0,0,0,0.08)] flex items-center justify-center text-[#6b7280] hover:text-[#1a1a2e] transition-all"
+          >
+            <i className="fa-solid fa-xmark text-xs"></i>
+          </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="p-6 space-y-4">
+        <form onSubmit={handleSubmit} className="p-6 space-y-3.5">
           {renderFormFields()}
 
           {error && (
-            <div className="bg-red-50 border border-red-300 text-red-800 px-3 py-2 text-sm">
+            <div className="rounded-md bg-red-50 border border-red-200 text-red-700 px-3.5 py-2.5 text-sm flex items-center gap-2">
+              <i className="fa-solid fa-circle-exclamation text-xs"></i>
               {error}
             </div>
           )}
 
           {loading && status && (
-            <div className="bg-blue-50 border border-blue-300 text-blue-800 px-3 py-2 text-sm flex items-center gap-2">
-              <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-              </svg>
+            <div className="rounded-md bg-indigo-50 border border-indigo-200 text-indigo-700 px-3.5 py-2.5 text-sm flex items-center gap-2">
+              <i className="fa-solid fa-spinner fa-spin text-xs"></i>
               {status}
             </div>
           )}
 
-          <div className="flex gap-3 pt-4">
+          <div className="flex gap-3 pt-3">
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 px-4 py-2 border border-gray-300 hover:bg-gray-50"
+              className="btn-ghost flex-1 py-2.5 px-4 text-sm"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="flex-1 px-4 py-2 bg-gray-900 text-white border border-gray-900 hover:bg-gray-800 disabled:bg-gray-400"
+              className="btn-primary flex-1 py-2.5 px-4 text-sm font-semibold"
             >
-              {loading ? (status || 'Issuing...') : 'Issue Credential'}
+              {loading ? (status || 'Issuing...') : (
+                <>
+                  <i className="fa-solid fa-pen-nib mr-1.5 text-xs"></i>
+                  Issue Credential
+                </>
+              )}
             </button>
           </div>
         </form>
@@ -436,17 +496,18 @@ function FormField({
 
   return (
     <div>
-      <label className="block text-sm font-medium text-gray-700 mb-1">
-        {label} {required && '*'}
+      <label className="block text-sm font-medium text-[#374151] mb-1.5">
+        {label} {required && <span className="text-[#4f46e5]">*</span>}
       </label>
       {textarea ? (
         <textarea
           name={name}
           value={value || ''}
           onChange={handleChange}
-          className="w-full px-3 py-2 border border-gray-300 focus:outline-none focus:border-gray-500"
+          className="glass-input w-full px-3.5 py-2.5 resize-none"
           required={required}
           rows={3}
+          placeholder={placeholder}
         />
       ) : (
         <input
@@ -455,7 +516,7 @@ function FormField({
           value={value || ''}
           onChange={handleChange}
           placeholder={placeholder}
-          className="w-full px-3 py-2 border border-gray-300 focus:outline-none focus:border-gray-500"
+          className="glass-input w-full px-3.5 py-2.5"
           required={required}
         />
       )}

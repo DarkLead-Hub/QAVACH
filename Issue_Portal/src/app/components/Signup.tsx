@@ -97,23 +97,38 @@ export function Signup({ onSignupSuccess, onSwitchToLogin }: SignupProps) {
   };
 
   return (
-    <div className="min-h-screen bg-white flex items-center justify-center px-4 py-8">
-      <div className="w-full max-w-md">
-        <div className="border border-gray-300 bg-white p-8">
+    <div className="min-h-screen flex items-center justify-center px-4 py-8 relative">
+      {/* Animated grid background */}
+      <div className="grid-bg">
+        <div className="orb orb-1" />
+        <div className="orb orb-2" />
+        <div className="orb orb-3" />
+      </div>
+
+      <div className="w-full max-w-md relative z-10">
+        {/* Logo */}
+        <div className="flex justify-center mb-6">
+          <div className="w-14 h-14 rounded-lg bg-gradient-to-br from-[#4f46e5] to-[#4338ca] flex items-center justify-center shadow-md shadow-[rgba(79,70,229,0.25)]">
+            <i className="fa-solid fa-user-plus text-white text-lg"></i>
+          </div>
+        </div>
+
+        <div className="glass p-8">
           <div className="mb-6 text-center">
-            <h1 className="text-2xl font-bold text-gray-900 mb-2">Register Account</h1>
-            <p className="text-sm text-gray-600">DigiLocker - Government of India</p>
+            <h1 className="text-2xl font-bold text-[#1a1a2e] mb-1 tracking-tight">Create Account</h1>
+            <p className="text-sm text-[#6b7280]">Citizen Portal — Government of India</p>
           </div>
 
           {successMessage && (
-            <div className="mb-4 bg-green-50 border border-green-300 p-3 text-sm text-green-800">
+            <div className="mb-4 rounded-md bg-emerald-50 border border-emerald-200 p-3 text-sm text-emerald-700 flex items-center gap-2">
+              <i className="fa-solid fa-circle-check text-xs"></i>
               {successMessage}
             </div>
           )}
 
-          <form onSubmit={handleSignup} className="space-y-4">
+          <form onSubmit={handleSignup} className="space-y-3.5">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-[#374151] mb-1.5">
                 Full Name *
               </label>
               <input
@@ -121,13 +136,14 @@ export function Signup({ onSignupSuccess, onSwitchToLogin }: SignupProps) {
                 name="full_name"
                 value={formData.full_name}
                 onChange={handleChange}
-                className="w-full px-3 py-2 border border-gray-300 focus:outline-none focus:border-gray-500"
+                className="glass-input w-full px-3.5 py-2.5"
+                placeholder="Enter your full name"
                 required
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-[#374151] mb-1.5">
                 Email Address *
               </label>
               <input
@@ -135,13 +151,14 @@ export function Signup({ onSignupSuccess, onSwitchToLogin }: SignupProps) {
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full px-3 py-2 border border-gray-300 focus:outline-none focus:border-gray-500"
+                className="glass-input w-full px-3.5 py-2.5"
+                placeholder="you@example.com"
                 required
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-[#374151] mb-1.5">
                 Phone Number
               </label>
               <input
@@ -149,12 +166,13 @@ export function Signup({ onSignupSuccess, onSwitchToLogin }: SignupProps) {
                 name="phone"
                 value={formData.phone}
                 onChange={handleChange}
-                className="w-full px-3 py-2 border border-gray-300 focus:outline-none focus:border-gray-500"
+                className="glass-input w-full px-3.5 py-2.5"
+                placeholder="+91 XXXXX XXXXX"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-[#374151] mb-1.5">
                 Address
               </label>
               <textarea
@@ -162,40 +180,45 @@ export function Signup({ onSignupSuccess, onSwitchToLogin }: SignupProps) {
                 value={formData.address}
                 onChange={handleChange}
                 rows={2}
-                className="w-full px-3 py-2 border border-gray-300 focus:outline-none focus:border-gray-500"
+                className="glass-input w-full px-3.5 py-2.5 resize-none"
+                placeholder="Your residential address"
               />
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Password *
-              </label>
-              <input
-                type="password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                className="w-full px-3 py-2 border border-gray-300 focus:outline-none focus:border-gray-500"
-                required
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Confirm Password *
-              </label>
-              <input
-                type="password"
-                name="confirmPassword"
-                value={formData.confirmPassword}
-                onChange={handleChange}
-                className="w-full px-3 py-2 border border-gray-300 focus:outline-none focus:border-gray-500"
-                required
-              />
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="block text-sm font-medium text-[#374151] mb-1.5">
+                  Password *
+                </label>
+                <input
+                  type="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  className="glass-input w-full px-3.5 py-2.5"
+                  placeholder="••••••"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-[#374151] mb-1.5">
+                  Confirm *
+                </label>
+                <input
+                  type="password"
+                  name="confirmPassword"
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
+                  className="glass-input w-full px-3.5 py-2.5"
+                  placeholder="••••••"
+                  required
+                />
+              </div>
             </div>
 
             {error && (
-              <div className="bg-red-50 border border-red-300 text-red-800 px-3 py-2 text-sm">
+              <div className="rounded-md bg-red-50 border border-red-200 text-red-700 px-3.5 py-2.5 text-sm flex items-center gap-2">
+                <i className="fa-solid fa-circle-exclamation text-xs"></i>
                 {error}
               </div>
             )}
@@ -203,18 +226,23 @@ export function Signup({ onSignupSuccess, onSwitchToLogin }: SignupProps) {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-gray-900 text-white py-2 px-4 border border-gray-900 hover:bg-gray-800 disabled:bg-gray-400 disabled:border-gray-400"
+              className="btn-primary w-full py-2.5 px-4 text-sm font-semibold"
             >
-              {loading ? 'Creating Account...' : 'Register'}
+              {loading ? (
+                <span className="flex items-center justify-center gap-2">
+                  <i className="fa-solid fa-spinner fa-spin text-sm"></i>
+                  Creating Account...
+                </span>
+              ) : 'Create Account'}
             </button>
           </form>
 
-          <div className="mt-4 text-center">
+          <div className="mt-5 text-center">
             <button
               onClick={onSwitchToLogin}
-              className="text-sm text-gray-700 hover:text-gray-900 underline"
+              className="text-sm text-[#6b7280] hover:text-[#4f46e5] transition-colors"
             >
-              Already have an account? Sign in
+              Already have an account? <span className="text-[#4f46e5] font-medium">Sign in</span>
             </button>
           </div>
         </div>

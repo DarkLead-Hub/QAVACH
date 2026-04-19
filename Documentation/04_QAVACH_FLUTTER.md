@@ -6,7 +6,7 @@ QAVACH is the citizen-facing mobile wallet for PQC-verified identity. The name m
 
 The app does five things:
 1. **Onboards** the citizen via mock Aadhaar OTP + GPS + time verification
-2. **Downloads** signed credentials from the Mock Issuer CA (simulating DigiLocker)
+2. **Downloads** signed credentials from the Mock Issuer CA (simulating Citizen portal)
 3. **Stores** credentials encrypted with ML-KEM-768 + AES-256-GCM in local secure storage
 4. **Evaluates** OPA Rego policies on-device when a QR scan triggers a verification request
 5. **Generates** an ML-DSA-44 signed proof and POSTs it to GovSign — only if OPA policy passes

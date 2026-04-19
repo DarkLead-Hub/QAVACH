@@ -1,4 +1,4 @@
-# DigiLocker-Style Credential Issuing Portal
+# Citizen Portal Credential Issuing Portal
 
 A secure, post-quantum cryptographic credential management system built with React, Supabase, and SLH-DSA (SPHINCS+) digital signatures.
 

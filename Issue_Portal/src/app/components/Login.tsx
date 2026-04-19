@@ -57,43 +57,60 @@ export function Login({ onLoginSuccess, onSwitchToSignup }: LoginProps) {
   };
 
   return (
-    <div className="min-h-screen bg-white flex items-center justify-center px-4">
-      <div className="w-full max-w-md">
-        <div className="border border-gray-300 bg-white p-8">
+    <div className="min-h-screen flex items-center justify-center px-4 relative">
+      {/* Animated grid background */}
+      <div className="grid-bg">
+        <div className="orb orb-1" />
+        <div className="orb orb-2" />
+        <div className="orb orb-3" />
+      </div>
+
+      <div className="w-full max-w-md relative z-10">
+        {/* Logo */}
+        <div className="flex justify-center mb-6">
+          <div className="w-14 h-14 rounded-lg bg-gradient-to-br from-[#4f46e5] to-[#4338ca] flex items-center justify-center shadow-md shadow-[rgba(79,70,229,0.25)]">
+            <i className="fa-solid fa-shield-halved text-white text-xl"></i>
+          </div>
+        </div>
+
+        <div className="glass p-8">
           <div className="mb-6 text-center">
-            <h1 className="text-2xl font-bold text-gray-900 mb-2">DigiLocker Portal</h1>
-            <p className="text-sm text-gray-600">Government of India</p>
+            <h1 className="text-2xl font-bold text-[#1a1a2e] mb-1 tracking-tight">Citizen Portal</h1>
+            <p className="text-sm text-[#6b7280]">Government of India</p>
           </div>
 
           <form onSubmit={handleLogin} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-[#374151] mb-1.5">
                 Email Address
               </label>
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 focus:outline-none focus:border-gray-500"
+                className="glass-input w-full px-3.5 py-2.5"
+                placeholder="you@example.com"
                 required
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-[#374151] mb-1.5">
                 Password
               </label>
               <input
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 focus:outline-none focus:border-gray-500"
+                className="glass-input w-full px-3.5 py-2.5"
+                placeholder="••••••••"
                 required
               />
             </div>
 
             {error && (
-              <div className="bg-red-50 border border-red-300 text-red-800 px-3 py-2 text-sm">
+              <div className="rounded-md bg-red-50 border border-red-200 text-red-700 px-3.5 py-2.5 text-sm flex items-center gap-2">
+                <i className="fa-solid fa-circle-exclamation text-xs"></i>
                 {error}
               </div>
             )}
@@ -101,24 +118,32 @@ export function Login({ onLoginSuccess, onSwitchToSignup }: LoginProps) {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-gray-900 text-white py-2 px-4 border border-gray-900 hover:bg-gray-800 disabled:bg-gray-400 disabled:border-gray-400"
+              className="btn-primary w-full py-2.5 px-4 text-sm font-semibold"
             >
-              {loading ? 'Signing in...' : 'Sign In'}
+              {loading ? (
+                <span className="flex items-center justify-center gap-2">
+                  <i className="fa-solid fa-spinner fa-spin text-sm"></i>
+                  Signing in...
+                </span>
+              ) : 'Sign In'}
             </button>
           </form>
 
-          <div className="mt-4 text-center">
+          <div className="mt-5 text-center">
             <button
               onClick={onSwitchToSignup}
-              className="text-sm text-gray-700 hover:text-gray-900 underline"
+              className="text-sm text-[#6b7280] hover:text-[#4f46e5] transition-colors"
             >
-              Don't have an account? Register here
+              Don't have an account? <span className="text-[#4f46e5] font-medium">Register here</span>
             </button>
           </div>
         </div>
 
-        <div className="mt-4 text-center text-xs text-gray-500">
-          <p>Secure Portal • Post-Quantum Cryptography</p>
+        <div className="mt-5 text-center text-xs text-[#9ca3af]">
+          <p className="flex items-center justify-center gap-1.5">
+            <i className="fa-solid fa-lock text-[0.65rem]"></i>
+            Secured with Post-Quantum Cryptography
+          </p>
         </div>
       </div>
     </div>

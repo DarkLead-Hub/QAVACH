@@ -84,7 +84,7 @@ The Flutter app now connects to the same Supabase project (`zlzjfjjrhedelcgbhfla
 | `qavach_app/lib/config.dart` | Added Supabase URL, anon key, bucket name, edge function base URL |
 | `qavach_app/lib/main.dart` | Added `Supabase.initialize()` and 4 new routes |
 | `qavach_app/lib/providers/providers.dart` | Added Supabase service providers |
-| `qavach_app/lib/screens/home/home_screen.dart` | Added DigiLocker button in app bar |
+| `qavach_app/lib/screens/home/home_screen.dart` | Added DocVault button in app bar |
 
 ### Files Added
 

@@ -1,4 +1,4 @@
--- DigiLocker Credential Portal Database Schema
+-- Citizen Portal Database Schema
 -- Run this SQL in your Supabase SQL Editor
 
 -- ============================================================================

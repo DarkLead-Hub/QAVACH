@@ -54,8 +54,13 @@ export default function App() {
 
   if (loading) {
     return (
-      <div className="size-full flex items-center justify-center bg-white">
-        <div className="text-gray-600">Loading...</div>
+      <div className="size-full flex items-center justify-center" style={{ background: '#f0f2f5' }}>
+        <div className="flex flex-col items-center gap-3">
+          <div className="w-11 h-11 rounded-lg bg-gradient-to-br from-[#4f46e5] to-[#4338ca] flex items-center justify-center animate-pulse">
+            <i className="fa-solid fa-shield-halved text-white text-base"></i>
+          </div>
+          <div className="text-[#6b7280] text-sm">Loading...</div>
+        </div>
       </div>
     );
   }
